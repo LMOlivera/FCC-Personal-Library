@@ -5,22 +5,51 @@
 'use strict';
 
 var expect = require('chai').expect;
-var MongoClient = require('mongodb').MongoClient;
-var ObjectId = require('mongodb').ObjectId;
-const MONGODB_CONNECTION_STRING = process.env.DB;
-//Example connection: MongoClient.connect(MONGODB_CONNECTION_STRING, function(err, db) {});
+var Book = require('../models/Book.js');
 
 module.exports = function (app) {
 
   app.route('/api/books')
+    //4 - Retrieve books with titles and comment count.
     .get(function (req, res){
-      //response will be array of book objects
-      //json res format: [{"_id": bookid, "title": book_title, "commentcount": num_of_comments },...]
+      let bookList = [];    
+      Book.find({},(err, data)=>{
+        data.forEach((book)=>{
+          let b = {};
+          b._id = book._id;
+          b.title = book.title;
+          b.commentcount = book.comments.length;
+          bookList.push(b);
+        });        
+        err ? res.json({error: "There was an error when trying to retrieve the books list."}) : res.json(bookList);
+      });
     })
-    
+  
+    //3 - Post a title
     .post(function (req, res){
       var title = req.body.title;
-      //response will contain new book object including atleast _id and title
+      Book.findOne({title: title},
+                   (err, data)=>{
+        if(err) {
+          res.json({error: "Could connect to database."});
+        }else{
+          if(data==undefined||data==null){
+            var b = new Book({
+              title: title
+            })
+            b.save((err, data=>{
+              if(err){
+                res.json({error: "Could not save book in the database."});
+              }else{
+                //response will contain new book object including atleast _id and title
+                res.json({_id: data._id, title: data.title});
+              }
+            }))
+          }else{
+            res.json({error: "The title already exists in the database."});
+          }
+        }
+      });
     })
     
     .delete(function(req, res){
@@ -30,15 +59,40 @@ module.exports = function (app) {
 
 
   app.route('/api/books/:id')
+    //5 - Get book by id
     .get(function (req, res){
       var bookid = req.params.id;
-      //json res format: {"_id": bookid, "title": book_title, "comments": [comment,comment,...]}
+      Book.findOne({_id: bookid}, (err, data)=>{
+        if(err){
+          res.json({error: "There was a problem when trying to get the book."});
+        }else{
+          if(bookid==undefined || bookid==null){
+            res.json({error: "You did not provide a Book's id"});
+          }else{
+            res.json(data);
+          }
+        }
+      });
     })
     
+    //6 - Post a comment to book
     .post(function(req, res){
       var bookid = req.params.id;
       var comment = req.body.comment;
-      //json res format same as .get
+      Book.findOne({_id: bookid}, (err, data)=>{
+        if(err){
+          res.json({error: "There was an error when trying to look for the book"});
+        }else{
+          data.comments.push(comment);
+          Book.findOneAndUpdate({_id: bookid}, {comments: data.comments}, {useNew: true}, (err, data)=>{
+            if(err){
+              res.json({error: "There was an error trying to save your comment."});
+            }else{
+              res.json(data);
+            }
+          });
+        }
+      })
     })
     
     .delete(function(req, res){

@@ -6,7 +6,6 @@ dependencies:
   express: 4.17.1
   helmet: 3.18.0
   mocha: 6.1.4
-  mongodb: 3.2.7
   mongoose: 5.5.14
   zombie: 6.1.4
 packages:
@@ -2327,6 +2326,5 @@ specifiers:
   express: ^4.16.4
   helmet: ^3.18.0
   mocha: ^6.1.4
-  mongodb: ^3.2.6
   mongoose: ^5.5.12
   zombie: ^6.1.4
