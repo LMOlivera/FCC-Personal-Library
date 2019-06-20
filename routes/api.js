@@ -57,14 +57,13 @@ module.exports = function (app) {
     });
 
 
-
+  //5 - Get book by id
   app.route('/api/books/:id')
-    //5 - Get book by id
     .get(function (req, res){
       var bookid = req.params.id;
       Book.findOne({_id: bookid}, (err, data)=>{
         if(err){
-          res.json({error: "There was a problem when trying to get the book."});
+          res.json({error: "The book does not exist"});
         }else{
           if(bookid==undefined || bookid==null){
             res.json({error: "You did not provide a Book's id"});
@@ -97,7 +96,22 @@ module.exports = function (app) {
     
     .delete(function(req, res){
       var bookid = req.params.id;
-      //if successful response will be 'delete successful'
+      Book.findOneAndDelete({_id: bookid}, (err, data)=>{
+        if(err){
+          res.json({error: "There was an error when trying to delete book"});
+        }else{
+          console.log(data);
+          if(bookid==undefined || bookid==null){
+            res.json({error: "You did not provide a Book's id"});
+          }else{
+            if(data==undefined){
+              res.json({error: "The book you are trying to delete does not exist"});
+            }else{
+              res.json({message: "Successful"});
+            }            
+          }
+        }
+      });
     });
   
 };
