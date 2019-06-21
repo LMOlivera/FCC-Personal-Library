@@ -28,21 +28,24 @@ module.exports = function (app) {
     //3 - Post a title
     .post(function (req, res){
       var title = req.body.title;
-      Book.findOne({title: title},
+      if (title) {
+        Book.findOne({title: title},
                    (err, data)=>{
         if(err) {
           res.json({error: "Could connect to database."});
         }else{
-          if(data==undefined||data==null){
+          if(data==undefined||data==null||data=="null"){
             var b = new Book({
               title: title
-            })
+            });
             b.save((err, data=>{
               if(err){
                 res.json({error: "Could not save book in the database."});
               }else{
                 //response will contain new book object including atleast _id and title
-                res.json({_id: data._id, title: data.title});
+                Book.findOne({title: title}, (err, data)=>{
+                  res.json({_id: data._id, title: data.title});
+                });
               }
             }))
           }else{
@@ -50,19 +53,31 @@ module.exports = function (app) {
           }
         }
       });
+      }else{
+        res.json({error: "You provided no title"});
+      }      
     })
     
+    //9 - Delete all books
     .delete(function(req, res){
-      //if successful response will be 'complete delete successful'
+      Book.deleteMany({}, (err, data)=>{
+        if (err) {
+          res.json({error: "Could not delete all books in database"});
+        }else{
+          res.json({message:  "complete delete successful"});
+        }
+      });
     });
 
 
-  //5 - Get book by id
+  
   app.route('/api/books/:id')
+    //5 - Get book by id
     .get(function (req, res){
       var bookid = req.params.id;
       Book.findOne({_id: bookid}, (err, data)=>{
         if(err){
+          //8 - Get book that doesnt exist
           res.json({error: "The book does not exist"});
         }else{
           if(bookid==undefined || bookid==null){
@@ -93,7 +108,8 @@ module.exports = function (app) {
         }
       })
     })
-    
+  
+    //7 - Delete by id
     .delete(function(req, res){
       var bookid = req.params.id;
       Book.findOneAndDelete({_id: bookid}, (err, data)=>{
@@ -107,7 +123,7 @@ module.exports = function (app) {
             if(data==undefined){
               res.json({error: "The book you are trying to delete does not exist"});
             }else{
-              res.json({message: "Successful"});
+              res.json({message: "delete successful"});
             }            
           }
         }
