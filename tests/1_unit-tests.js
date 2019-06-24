@@ -1,6 +1,18 @@
+/*
+*
+*
+*       FILL IN EACH UNIT TEST BELOW COMPLETELY
+*       -----[Keep the tests in the same order!]----
+*       (if additional are added, keep them at the very end!)
+*/
+
 var chai = require('chai');
-var assert = chai.assert;
+var StockHandler = require('../controllers/stockHandler.js');
+
+var stockPrices = new StockHandler();
 
 suite('Unit Tests', function(){
-  //No unit tests needed for this project, so I'm not implementing them (this projects are really boring)
+
+//none requiered
+
 });

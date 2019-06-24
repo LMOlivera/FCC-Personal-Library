@@ -6,7 +6,8 @@ dependencies:
   express: 4.17.1
   helmet: 3.18.0
   mocha: 6.1.4
-  mongoose: 5.5.14
+  mongodb: 3.2.7
+  mongoose: 5.6.1
   zombie: 6.1.4
 packages:
   /@types/chai/4.1.7:
@@ -17,14 +18,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-aRnpPa7ysx3aNW60hTiCtLHlQaIFsXFCgQlpakNgDNVFzbtusSY8PwjAQgRWfSk0ekNoBjO51eQRB6upA9uuyw==
-  /@types/node/12.0.7:
+  /@types/node/12.0.10:
     dev: false
     resolution:
-      integrity: sha512-1YKeT4JitGgE4SOzyB9eMwO0nGVNkNEsm9qlIt1Lqm/tG2QEiSMTD4kS3aO6L+w5SClLVxALmIBESK6Mk5wX0A==
+      integrity: sha512-LcsGbPomWsad6wmMNv7nBLw7YYYyfdYcz6xryKYQhx89c3XXan+8Q6AJ43G5XDIaklaVkK3mE4fCb0SBvMiPSQ==
   /@types/superagent/3.8.7:
     dependencies:
       '@types/cookiejar': 2.1.1
-      '@types/node': 12.0.7
+      '@types/node': 12.0.10
     dev: false
     resolution:
       integrity: sha512-9KhCkyXv268A2nZ1Wvu7rQWM+BmdYUVkycFeNnYrUL5Zwu7o8wPQ3wBfW59dDP+wuoxw0ww8YKgTNv8j/cgscA==
@@ -757,6 +758,16 @@ packages:
       node: '>= 0.12'
     resolution:
       integrity: sha512-1lLKB2Mu3aGP1Q/2eCOx0fNbRMe7XdwktwOruhfqqd0rIJWwN4Dh+E3hrPSlDCXnSR7UtZ1N38rVXm+6+MEhJQ==
+  /form-data/2.4.0:
+    dependencies:
+      asynckit: 0.4.0
+      combined-stream: 1.0.8
+      mime-types: 2.1.24
+    dev: false
+    engines:
+      node: '>= 0.12'
+    resolution:
+      integrity: sha512-4FinE8RfqYnNim20xDwZZE0V2kOs/AuElIjFUbPuegQSaoZM+vUT5FnwSl10KPugH4voTg1bEQlcbCG9ka75TA==
   /formidable/1.2.1:
     dev: false
     resolution:
@@ -819,7 +830,7 @@ packages:
     dependencies:
       fs.realpath: 1.0.0
       inflight: 1.0.6
-      inherits: 2.0.3
+      inherits: 2.0.4
       minimatch: 3.0.4
       once: 1.4.0
       path-is-absolute: 1.0.1
@@ -979,6 +990,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4=
+  /inherits/2.0.4:
+    dev: false
+    resolution:
+      integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
   /invert-kv/2.0.0:
     dev: false
     engines:
@@ -1106,7 +1121,7 @@ packages:
       request: 2.88.0
       request-promise-native: /request-promise-native/1.0.7/request@2.88.0
       sax: 1.2.4
-      symbol-tree: 3.2.2
+      symbol-tree: 3.2.4
       tough-cookie: 2.5.0
       w3c-hr-time: 1.0.1
       webidl-conversions: 4.0.2
@@ -1338,7 +1353,7 @@ packages:
       mongoose: '*'
     resolution:
       integrity: sha512-Yo/7qQU4/EyIS8YDFSeenIvXxZN+ld7YdV9LqFVQJzTLye8unujAWPZ4NWKfFA+RNjh+wvTWKY9Z3E5XM6ZZiQ==
-  /mongoose/5.5.14:
+  /mongoose/5.6.1:
     dependencies:
       async: 2.6.2
       bson: 1.1.1
@@ -1357,7 +1372,7 @@ packages:
     engines:
       node: '>=4.0.0'
     resolution:
-      integrity: sha512-BWrugOHZQLeiXlA9bA/xo9TvjZpV5O4T5vJJT7wsLmZyAi0heYkAPqzH206+NxgnPyAifqjrLR+M24vqXgugNQ==
+      integrity: sha512-/EBoXS+fZv8dYf0VKMXwhTEVYUI+6EbmVhmV2DzO9BGacTSgStQprU09rZYfVxe8EmLhmTrSV5eCIRLBYuXGag==
   /mpath/0.6.0:
     dev: false
     engines:
@@ -1602,10 +1617,10 @@ packages:
       node: '>= 0.8.0'
     resolution:
       integrity: sha1-IZMqVJ9eUv/ZqCf1cOBL5iqX2lQ=
-  /process-nextick-args/2.0.0:
+  /process-nextick-args/2.0.1:
     dev: false
     resolution:
-      integrity: sha512-MtEC1TqN0EU5nephaJ4rAtThHtC86dNN9qCuEhtshvpVBkAW5ZO7BASN9REnF9eoXGcRub+pFuKEpOHE+HbEMw==
+      integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==
   /proxy-addr/2.0.5:
     dependencies:
       forwarded: 0.1.2
@@ -1615,10 +1630,10 @@ packages:
       node: '>= 0.10'
     resolution:
       integrity: sha512-t/7RxHXPH6cJtP0pRG6smSr9QJidhB+3kXu0KgXnbGYMgzEnUxRQ4/LDdfOwZEMyIh3/xHb8PX3t+lfL9z+YVQ==
-  /psl/1.1.32:
+  /psl/1.1.33:
     dev: false
     resolution:
-      integrity: sha512-MHACAkHpihU/REGGPLj4sEfc/XKW2bheigvHO1dUqjaKigMp1C8+WLQYRGgeKFMsw5PMfegZcaN8IDXK/cD0+g==
+      integrity: sha512-LTDP2uSrsc7XCb5lO7A8BI1qYxRe/8EqlRvMeEl6rsnYAqDOl8xHR+8lSAIVfrNaSAlTPTNOCgNjWcoUL3AZsw==
   /pump/3.0.0:
     dependencies:
       end-of-stream: 1.4.1
@@ -1672,9 +1687,9 @@ packages:
   /readable-stream/2.3.6:
     dependencies:
       core-util-is: 1.0.2
-      inherits: 2.0.3
+      inherits: 2.0.4
       isarray: 1.0.0
-      process-nextick-args: 2.0.0
+      process-nextick-args: 2.0.1
       safe-buffer: 5.1.2
       string_decoder: 1.1.1
       util-deprecate: 1.0.2
@@ -1994,12 +2009,13 @@ packages:
       cookiejar: 2.1.2
       debug: 3.2.6
       extend: 3.0.2
-      form-data: 2.3.3
+      form-data: 2.4.0
       formidable: 1.2.1
       methods: 1.1.2
       mime: 1.6.0
       qs: 6.7.0
       readable-stream: 2.3.6
+    deprecated: 'Please note that v5.0.1+ of superagent removes User-Agent header by default, therefore you may need to add it yourself (e.g. GitHub blocks requests without a User-Agent header).  This notice will go away with v5.0.2+ once it is released.'
     dev: false
     engines:
       node: '>= 4.0'
@@ -2021,10 +2037,10 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-on9Kwidc1IUQo+bQdhi8+Tijpo0e1SS6RoGo2guUwn5vdaxw8RXOF9Vb2ws+ihWOmh4JnCJOvaziZWP1VABaLg==
-  /symbol-tree/3.2.2:
+  /symbol-tree/3.2.4:
     dev: false
     resolution:
-      integrity: sha1-rifbOPZgp64uHDt9G8KQgZuFGeY=
+      integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==
   /toidentifier/1.0.0:
     dev: false
     engines:
@@ -2033,7 +2049,7 @@ packages:
       integrity: sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
   /tough-cookie/2.4.3:
     dependencies:
-      psl: 1.1.32
+      psl: 1.1.33
       punycode: 1.4.1
     dev: false
     engines:
@@ -2042,7 +2058,7 @@ packages:
       integrity: sha512-Q5srk/4vDM54WJsJio3XNn6K2sCG+CQ8G5Wz6bZhRZoAe/+TxjWB/GlFAnYEbkYVlON9FMk/fE3h2RLpPXo4lQ==
   /tough-cookie/2.5.0:
     dependencies:
-      psl: 1.1.32
+      psl: 1.1.33
       punycode: 2.1.1
     dev: false
     engines:
@@ -2326,5 +2342,6 @@ specifiers:
   express: ^4.16.4
   helmet: ^3.18.0
   mocha: ^6.1.4
+  mongodb: ^3.2.6
   mongoose: ^5.5.12
   zombie: ^6.1.4
